@@ -32,9 +32,8 @@ class Validator {
          $splitRuleValue = array_filter(explode('|', $ruleValue));
 
          foreach ($splitRuleValue as $rule)
-            if ( ! isset($this->errors[$inputKey]))
-               if ( ! $this->$rule($inputKey))
-                  $this->setError($inputKey, $rule);
+            if ( ! isset($this->errors[$inputKey]) && ! $this->$rule($inputKey))
+               $this->setError($inputKey, $rule);
 
       endforeach;
 
@@ -52,7 +51,7 @@ class Validator {
    public function email($inputKey)
    {
 
-      return ( ! filter_var($this->input[$inputKey]), FILTER_VALIDATE_EMAIL)
+      return ( ! filter_var($this->input[$inputKey], FILTER_VALIDATE_EMAIL))
          ? false
          : true;
 
