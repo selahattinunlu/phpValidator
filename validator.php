@@ -77,13 +77,13 @@ class Validator {
       if (is_callable($this->specialRules[$method])):
 
          if ( ! $this->specialRules[$method]($this->input[$inputKey])):
-            return $this->setError($inputKey, $method);
+            $this->setError($inputKey, $method);
          endif;
 
       else:
         
          if ( ! call_user_func($method, $this->input[$inputKey])):
-            return $this->setError($inputKey, $method);
+            $this->setError($inputKey, $method);
          endif;
 
       endif;
