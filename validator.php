@@ -30,9 +30,7 @@ class Validator {
 
             if ( ! isset($this->errors[$inputKey])):
 
-               $method = (isset($this->filter[$rule]))
-                  ? 'filterValidate'
-                  : $rule;
+               $method = (isset($this->filter[$rule])) ? 'filterValidate' : $rule;
 
                if ( ! $this->$method($inputKey, $rule))
                   $this->setError($inputKey, $rule);
@@ -74,6 +72,15 @@ class Validator {
    {  
 
       return ( ! is_numeric($this->input[$inputKey])) ? false : true;
+
+   }
+
+   public function confirm($inputKey)
+   {
+      
+      return ($this->input[$inputKey] != $this->input[$inputKey . '_confirm'])
+         ? false
+         : true;
 
    }
 
