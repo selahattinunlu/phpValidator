@@ -4,6 +4,7 @@ class Validator {
 
    public $input;
    public $rules;
+   public $specialRules = array();
    public $messages;
    public $errors = array();
    public $filter = array(
@@ -30,18 +31,62 @@ class Validator {
 
             if ( ! isset($this->errors[$inputKey])):
 
-               $method = (isset($this->filter[$rule]))
-                  ? 'filterValidate'
-                  : $rule;
+               $method = (isset($this->filter[$rule])) ? 'filterValidate' : $rule;
 
-               if ( ! $this->$method($inputKey, $rule))
-                  $this->setError($inputKey, $rule);
+               $controlType = $this->chooseControlType($method);
+
+               $this->$controlType($method, $inputKey, $rule);
 
             endif;
 
          endforeach;
 
       endforeach;
+
+   }
+
+   public function setSpecialRule($ruleName, $function)
+   {
+      
+      $this->specialRules[$ruleName] = $function;
+
+   }
+
+   public function chooseControlType($method)
+   {
+
+      return (method_exists('Validator', $method))
+         ? 'control'
+         : 'specialControl';
+      
+   }
+
+   # Controls
+
+   public function control($method, $inputKey, $rule)
+   {
+      
+      if ( ! $this->$method($inputKey, $rule))
+         $this->setError($inputKey, $rule);
+
+   }
+
+   public function specialControl($method, $inputKey)
+   {
+      
+      if (is_callable($this->specialRules[$method])):
+
+         if ( ! $this->specialRules[$method]($this->input[$inputKey])):
+            return $this->setError($inputKey, $method);
+         endif;
+
+      else:
+        
+         if ( ! call_user_func($method, $this->input[$inputKey])):
+            return $this->setError($inputKey, $method);
+         endif;
+
+      endif;
 
    }
 
@@ -75,6 +120,36 @@ class Validator {
 
       return ( ! is_numeric($this->input[$inputKey])) ? false : true;
 
+   }
+
+   public function confirm($inputKey)
+   {
+      
+      return ($this->input[$inputKey] != $this->input[$inputKey . '_confirm'])
+         ? false
+         : true;
+
+   }
+
+   public function min($value = '')
+   {
+
+      # code...
+      
+   }
+
+   public function max($value = '')
+   {
+
+      # code...
+   
+   }
+
+   public function beetween($value = '')
+   {
+
+      # code...
+   
    }
 
 }

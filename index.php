@@ -6,7 +6,7 @@
 
    <input type="password" name="password" placeholder="Password">
 
-   <input type="password" name="password_confirmation" placeholder="Password Confirm">
+   <input type="password" name="password_confirm" placeholder="Password Confirm">
 
    <button type="submit"> Post </button>
 
