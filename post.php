@@ -6,13 +6,15 @@ include_once 'validator.php';
 $input = $_POST;
 
 $rules = array(
-   'username' => 'required',
+   'username' => 'required|ip',
    'email'    => 'required|email',
    'password' => 'required|numeric|min:3'
    );
 
 $messages = array(
    'username.required' => 'Kullanıcı adı girmediniz',
+   'username.ip'       => 'Bu bir ip değil! -hadi canım',
+   'username.url'      => 'Bu bir url değil!',
    'email.required'    => 'Email girmediniz.',
    'email.email'       => 'Lütfen geçerli bir email adresi giriniz.',
    'password.required' => 'Parola girmedin',

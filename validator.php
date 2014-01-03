@@ -6,24 +6,19 @@ class Validator {
    public $rules;
    public $messages;
    public $errors = array();
-
-   public function init($input, $rules, $messages)
-   {
-
-      $this->input = $input;
-
-      $this->rules = $rules;
-
-      $this->messages = $messages;
-
-      $this->errors = null;
-
-   }
+   public $filter = array(
+      'ip'    => FILTER_VALIDATE_IP,
+      'url'   => FILTER_VALIDATE_URL,
+      'email' => FILTER_VALIDATE_EMAIL
+      );
 
    public function set($input, $rules, $messages)
    {
 
-      $this->init($input, $rules, $messages);
+      $this->input    = $input;
+      $this->rules    = $rules;
+      $this->messages = $messages;
+      $this->errors   = null;
 
       foreach ($rules as $ruleKey => $ruleValue):
 
@@ -31,9 +26,20 @@ class Validator {
          $ruleValue .= '|';
          $splitRuleValue = array_filter(explode('|', $ruleValue));
 
-         foreach ($splitRuleValue as $rule)
-            if ( ! isset($this->errors[$inputKey]) && ! $this->$rule($inputKey))
-               $this->setError($inputKey, $rule);
+         foreach ($splitRuleValue as $rule):
+
+            if ( ! isset($this->errors[$inputKey])):
+
+               $method = (isset($this->filter[$rule]))
+                  ? 'filterValidate'
+                  : $rule;
+
+               if ( ! $this->$method($inputKey, $rule))
+                  $this->setError($inputKey, $rule);
+
+            endif;
+
+         endforeach;
 
       endforeach;
 
@@ -47,11 +53,11 @@ class Validator {
    }
 
    # Rules
-
-   public function email($inputKey)
+   
+   public function filterValidate($inputKey, $rule)
    {
-
-      return ( ! filter_var($this->input[$inputKey], FILTER_VALIDATE_EMAIL))
+     
+      return ( ! filter_var($this->input[$inputKey], $this->filter[$rule]))
          ? false
          : true;
 
