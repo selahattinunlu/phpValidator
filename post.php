@@ -1,7 +1,7 @@
 <?php 
 
 header('Content-type: text/html; charset=utf8');
-include_once 'validator.php';
+include_once 'src/Validator.php';
 
 $input = $_POST;
 
@@ -46,4 +46,9 @@ function ageRule($value) {
 
 $validator->set($input, $rules, $messages);
 
-var_dump($validator->errors);
+//var_dump($validator->errors()->get('username'));
+
+if ($validator->fails())
+   var_dump($validator->errors()->all());
+else
+   echo 'Hata Yok!';
