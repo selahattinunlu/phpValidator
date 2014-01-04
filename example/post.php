@@ -1,12 +1,12 @@
 <?php 
 
 header('Content-type: text/html; charset=utf8');
-include_once 'src/Validator.php';
+include_once '../vendor/autoload.php';
 
 $input = $_POST;
 
 $rules = array(
-   'username' => 'required|age',
+   'username' => 'required|min:3|max:5',
    'email'    => 'required|email',
    'password' => 'required|numeric|confirm',
    'password_confirm' => 'required'
@@ -18,6 +18,7 @@ $messages = array(
    'username.url'      => 'Bu bir url değil!',
    'username.age'      => 'Bu bir yaş değil lütfen sayı girin ve 18 den büyük olsun',
    'username.min'      => 'Minimum 3 karakter olmalıdır.',
+   'username.max'      => 'Maximum 5 karakterden oluşmalıdır.',
    'email.required'    => 'Email girmediniz.',
    'email.email'       => 'Lütfen geçerli bir email adresi giriniz.',
    'password.required' => 'Parola girmedin',
@@ -28,7 +29,7 @@ $messages = array(
    );
 
 
-$validator = new Validator();
+$validator = new \phpValidator\Validator();
 
 $validator->setSpecialRule('age', function($value) {
 

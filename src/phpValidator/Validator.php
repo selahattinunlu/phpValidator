@@ -1,4 +1,6 @@
-<?php 
+<?php
+
+namespace phpValidator;
 
 class Validator {
 
@@ -64,7 +66,7 @@ class Validator {
    public function chooseControlType($method)
    {
 
-      return (method_exists('Validator', $method))
+      return (method_exists('phpValidator\Validator', $method))
          ? 'control'
          : 'specialControl';
       
@@ -119,7 +121,7 @@ class Validator {
    {
 
       include_once 'Error.php';
-      return new Error($this->errors);
+      return new \phpValidator\Error($this->errors);
 
    }
 
