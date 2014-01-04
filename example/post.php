@@ -9,7 +9,8 @@ $rules = array(
    'username' => 'required|min:3|max:5',
    'email'    => 'required|email',
    'password' => 'required|numeric|confirm',
-   'password_confirm' => 'required'
+   'password_confirm' => 'required',
+   'age'      => 'required|between:16,24'
    );
 
 $messages = array(
@@ -25,7 +26,9 @@ $messages = array(
    'password.numeric'  => 'PArola sayılardan olşmalı!',
    'password.min'      => 'Parolanız minimum 3 karakterden oluşmalıdır.',
    'password.confirm'  => 'Girilen parolalar uyuşmuyor.',
-   'password_confirm.required' => 'Parolanızı onaylayın!!'
+   'password_confirm.required' => 'Parolanızı onaylayın!!',
+   'age.required'      => 'Yaşınızı belirtmelisiniz.',
+   'age.between'       => 'Yaşınız 16 ve 24 arası olmalıdır.'
    );
 
 

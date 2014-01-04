@@ -17,8 +17,8 @@ class Validator {
       );
 
    public $regex = array(
-      'find'    => array('/:/', '/[0-9]/'),
-      'replace' => array('', '')
+      'find'    => array('/:/', '/[0-9]/', '/,/'),
+      'replace' => array('', '', '')
       );
 
    public function set($input, $rules, $messages)
@@ -183,10 +183,18 @@ class Validator {
    
    }
 
-   public function beetween($value = '')
+   public function between($inputKey)
    {
 
-      # code...
+      $this->rules[$inputKey] .= '|';
+      
+      $split = explode('between:', $this->rules[$inputKey]);
+      $limit = explode('|', $split[1]);
+      $values = explode(',', $limit[0]);
+
+      return ($this->input[$inputKey] < $values[0] || $this->input[$inputKey] > $values[1]) 
+         ? false 
+         : true;
    
    }
 
