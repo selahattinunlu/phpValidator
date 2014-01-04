@@ -7,10 +7,16 @@ class Validator {
    public $specialRules = array();
    public $messages;
    public $errors = array();
+
    public $filter = array(
       'ip'    => FILTER_VALIDATE_IP,
       'url'   => FILTER_VALIDATE_URL,
       'email' => FILTER_VALIDATE_EMAIL
+      );
+
+   public $regex = array(
+      'find'    => array('/:/', '/[0-9]/'),
+      'replace' => array('', '')
       );
 
    public function set($input, $rules, $messages)
@@ -28,6 +34,9 @@ class Validator {
          $splitRuleValue = array_filter(explode('|', $ruleValue));
 
          foreach ($splitRuleValue as $rule):
+
+            if (preg_match('/:/', $rule))
+               $rule = preg_filter($this->regex['find'], $this->regex['replace'], $rule);
 
             if ( ! isset($this->errors[$inputKey])):
 
@@ -148,17 +157,27 @@ class Validator {
 
    }
 
-   public function min($value = '')
+   public function min($inputKey)
    {
 
-      # code...
-      
+      $this->rules[$inputKey] .= '|';
+
+      $split = explode('min:', $this->rules[$inputKey]);
+      $limit = explode('|', $split[1]);
+
+      return (strlen($this->input[$inputKey]) < $limit[0]) ? false : true;
+
    }
 
-   public function max($value = '')
+   public function max($inputKey)
    {
 
-      # code...
+      $this->rules[$inputKey] .= '|';
+      
+      $split = explode('max:', $this->rules[$inputKey]);
+      $limit = explode('|', $split[1]);
+
+      return (strlen($this->input[$inputKey]) > $limit[0]) ? false : true;
    
    }
 
