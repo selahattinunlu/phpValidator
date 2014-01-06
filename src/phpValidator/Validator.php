@@ -66,7 +66,7 @@ class Validator {
    public function chooseControlType($method)
    {
 
-      return (method_exists('phpValidator\Validator', $method))
+      return (method_exists(__CLASS__, $method))
          ? 'control'
          : 'specialControl';
       
@@ -162,40 +162,41 @@ class Validator {
    public function min($inputKey)
    {
 
-      $this->rules[$inputKey] .= '|';
+      $ruleValues = $this->explodeRule('min', $inputKey);
 
-      $split = explode('min:', $this->rules[$inputKey]);
-      $limit = explode('|', $split[1]);
-
-      return (strlen($this->input[$inputKey]) < $limit[0]) ? false : true;
+      return (strlen($this->input[$inputKey]) < $ruleValues[0]) ? false : true;
 
    }
 
    public function max($inputKey)
    {
 
-      $this->rules[$inputKey] .= '|';
-      
-      $split = explode('max:', $this->rules[$inputKey]);
-      $limit = explode('|', $split[1]);
+      $ruleValues = $this->explodeRule('max', $inputKey);
 
-      return (strlen($this->input[$inputKey]) > $limit[0]) ? false : true;
+      return (strlen($this->input[$inputKey]) > $ruleValues[0]) ? false : true;
    
    }
 
    public function between($inputKey)
    {
 
-      $this->rules[$inputKey] .= '|';
-      
-      $split = explode('between:', $this->rules[$inputKey]);
-      $limit = explode('|', $split[1]);
-      $values = explode(',', $limit[0]);
+      $ruleValues = $this->explodeRule('between', $inputKey);
+      $values = explode(',', $ruleValues[0]);
 
       return ($this->input[$inputKey] < $values[0] || $this->input[$inputKey] > $values[1]) 
          ? false 
          : true;
    
+   }
+
+   public function explodeRule($rule, $inputKey)
+   {
+      
+      $this->rules[$inputKey] .= '|';
+      $split = explode($rule . ':', $this->rules[$inputKey]);
+
+      return explode('|', $split[1]);
+
    }
 
 }

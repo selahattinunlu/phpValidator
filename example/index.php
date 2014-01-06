@@ -10,6 +10,8 @@
 
    <input type="text" name="age" placeholder="Age">
 
+   <input type="text" name="specialRule" placeholder="specialRule">
+
    <button type="submit"> Post </button>
 
 </form>

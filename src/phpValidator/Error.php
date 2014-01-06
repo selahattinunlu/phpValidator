@@ -30,7 +30,12 @@ class Error {
    public function first()
    {
       
-      return $this->errors[0];
+      if ($this->errors):
+      
+         $errorValues = array_values($this->errors);
+         return $errorValues[0];
+
+      endif;
 
    }
 
