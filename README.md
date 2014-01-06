@@ -5,12 +5,11 @@ Php için oluşturulmuş form doğrulama sınıfı.
 
 ### Composer İle Kurulum
 
-composer.json dosyasında, require içerisine 
+composer.json dosyasında, require içerisine şu satırı ekleyin:
 
 ```
 "selahattinunlu/php-validator": "dev-master"
 ```
-satırını eklemelisiniz.
 
 Yani son hali şu şekilde olmalıdır:
 
@@ -24,10 +23,10 @@ Yani son hali şu şekilde olmalıdır:
 }
 ```
 
-Ardından terminale ```composer install``` komutunu girin.
+Ardından terminale, daha önce kurulum yapmadıysanız ```composer install``` kurulum yaptıysanız ```composer update``` komutunu girin.
 
 Böylece gerekli dosyalar projenize dahil edilecektir.
 
-Son olarak projenizin kök klasörü içerisinde otomatik oluşturulan vendor klasöründeki autoload.php 'yi projenize include etmelisiniz. Daha önce composer kullanmadıysanız [buradan](http://getcomposer.org) composer kullanımı hakkında detaylı bilgiye ulaşabilirsiniz.
+[Composer hakkında daha detaylı bilgi için tıklayın.](http://getcomposer.org)
 
-### phpValidator Kullanımı
+### Kullanımı
