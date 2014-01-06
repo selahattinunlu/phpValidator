@@ -1,0 +1,4 @@
+phpValidator
+============
+
+phpValidator Sınıfı
