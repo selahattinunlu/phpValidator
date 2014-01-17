@@ -120,7 +120,6 @@ class Validator {
    public function errors()
    {
 
-      include_once 'Error.php';
       return new \phpValidator\Error($this->errors);
 
    }
